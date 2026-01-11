@@ -6,12 +6,30 @@
 </head>
 <body>
 
+    <div id="score-board">
+        <span>Score: <span id="score">0</span></span>
+        <span>Max Score: <span id="max-score">0</span></span>
+    </div>
+
+    <div id="overlay">
+        <div id="message-box">
+            <h1 id="message-title">Ping Pong Game</h1>
+            <p id="message-text">Press Enter to Start</p>
+            <p id="last-score-display"></p>
+            <div id="settings" style="margin-top: 20px;">
+                <label>
+                    <input type="checkbox" id="two-player-mode"> 2 Player Mode (Rod 2: Left/Right)
+                </label>
+            </div>
+        </div>
+    </div>
+
     <div id="container">
 
         <div id="ball"></div>
         <div id="rod1">Player 1</div>
         <div id="rod2">Player 2</div>
-        
+
     </div>
     <script src="./script.js"></script>
 </body>
