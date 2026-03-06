@@ -1,36 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Ping Pong Game</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON PONG - Ultimate Edition</title>
     <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="background-effects"></div>
 
-    <div id="score-board">
-        <span>Score: <span id="score">0</span></span>
-        <span>Max Score: <span id="max-score">0</span></span>
-    </div>
-
-    <div id="overlay">
-        <div id="message-box">
-            <h1 id="message-title">Ping Pong Game</h1>
-            <p id="message-text">Press Enter to Start</p>
-            <p id="last-score-display"></p>
-            <div id="settings" style="margin-top: 20px;">
-                <label>
-                    <input type="checkbox" id="two-player-mode"> 2 Player Mode (Rod 2: Left/Right)
-                </label>
+    <!-- Main Menu -->
+    <div id="menu-screen" class="screen active">
+        <div class="menu-container">
+            <h1 class="game-title">NEON<span class="title-accent">PONG</span></h1>
+            <p class="subtitle">ULTIMATE EDITION</p>
+            <div class="menu-buttons">
+                <button class="menu-btn primary" data-action="single-player">
+                    <span class="btn-icon">1P</span>
+                    <span class="btn-text">SINGLE PLAYER</span>
+                    <span class="btn-sub">vs AI Opponent</span>
+                </button>
+                <button class="menu-btn secondary" data-action="two-player">
+                    <span class="btn-icon">2P</span>
+                    <span class="btn-text">LOCAL VERSUS</span>
+                    <span class="btn-sub">Player vs Player</span>
+                </button>
+                <button class="menu-btn tertiary" data-action="arcade">
+                    <span class="btn-icon">AR</span>
+                    <span class="btn-text">ARCADE MODE</span>
+                    <span class="btn-sub">Endless Survival</span>
+                </button>
+                <button class="menu-btn" data-action="settings">
+                    <span class="btn-icon">&#9881;</span>
+                    <span class="btn-text">SETTINGS</span>
+                    <span class="btn-sub">Customize Game</span>
+                </button>
+            </div>
+            <div class="stats-bar">
+                <div class="stat"><span class="stat-label">HIGH SCORE</span><span class="stat-value" id="menu-high-score">0</span></div>
+                <div class="stat"><span class="stat-label">GAMES PLAYED</span><span class="stat-value" id="menu-games-played">0</span></div>
+                <div class="stat"><span class="stat-label">WIN RATE</span><span class="stat-value" id="menu-win-rate">0%</span></div>
             </div>
         </div>
     </div>
 
-    <div id="container">
-
-        <div id="ball"></div>
-        <div id="rod1">Player 1</div>
-        <div id="rod2">Player 2</div>
-
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+        <div class="settings-container">
+            <h2 class="screen-title">SETTINGS</h2>
+            <div class="settings-group">
+                <label class="setting-label">AI DIFFICULTY</label>
+                <div class="difficulty-selector">
+                    <button class="diff-btn" data-diff="easy">EASY</button>
+                    <button class="diff-btn active" data-diff="medium">MEDIUM</button>
+                    <button class="diff-btn" data-diff="hard">HARD</button>
+                    <button class="diff-btn" data-diff="impossible">INSANE</button>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label class="setting-label">WINNING SCORE</label>
+                <div class="score-selector">
+                    <button class="score-btn" data-score="5">5</button>
+                    <button class="score-btn active" data-score="10">10</button>
+                    <button class="score-btn" data-score="15">15</button>
+                    <button class="score-btn" data-score="21">21</button>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label class="setting-label">POWER-UPS</label>
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" id="powerups-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Enabled</span>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label class="setting-label">SOUND</label>
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" id="sound-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Enabled</span>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label class="setting-label">SCREEN SHAKE</label>
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" id="shake-toggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-label">Enabled</span>
+                </div>
+            </div>
+            <div class="settings-group">
+                <label class="setting-label">THEME</label>
+                <div class="theme-selector">
+                    <button class="theme-btn active" data-theme="neon">NEON</button>
+                    <button class="theme-btn" data-theme="retro">RETRO</button>
+                    <button class="theme-btn" data-theme="matrix">MATRIX</button>
+                    <button class="theme-btn" data-theme="sunset">SUNSET</button>
+                </div>
+            </div>
+            <button class="menu-btn back-btn" data-action="back-to-menu">
+                <span class="btn-text">BACK TO MENU</span>
+            </button>
+        </div>
     </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <canvas id="gameCanvas"></canvas>
+        <div id="game-hud">
+            <div class="hud-left">
+                <div class="player-info p1">
+                    <span class="player-name" id="p1-name">PLAYER 1</span>
+                    <span class="player-score" id="p1-score">0</span>
+                </div>
+            </div>
+            <div class="hud-center">
+                <div id="combo-display" class="hidden"></div>
+                <div id="powerup-notice" class="hidden"></div>
+                <div id="round-display"></div>
+            </div>
+            <div class="hud-right">
+                <div class="player-info p2">
+                    <span class="player-name" id="p2-name">CPU</span>
+                    <span class="player-score" id="p2-score">0</span>
+                </div>
+            </div>
+        </div>
+        <div id="pause-overlay" class="hidden">
+            <div class="pause-menu">
+                <h2>PAUSED</h2>
+                <button class="menu-btn" data-action="resume">RESUME</button>
+                <button class="menu-btn" data-action="restart">RESTART</button>
+                <button class="menu-btn" data-action="quit">QUIT TO MENU</button>
+            </div>
+        </div>
+        <div id="countdown-overlay" class="hidden">
+            <span id="countdown-text">3</span>
+        </div>
+        <div id="goal-overlay" class="hidden">
+            <span id="goal-text">GOAL!</span>
+            <span id="goal-scorer"></span>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameover-screen" class="screen">
+        <div class="gameover-container">
+            <h2 class="gameover-title" id="winner-text">PLAYER 1 WINS!</h2>
+            <div class="final-score">
+                <div class="final-p1">
+                    <span class="final-name" id="final-p1-name">PLAYER 1</span>
+                    <span class="final-score-val" id="final-p1-score">0</span>
+                </div>
+                <span class="vs-text">VS</span>
+                <div class="final-p2">
+                    <span class="final-name" id="final-p2-name">CPU</span>
+                    <span class="final-score-val" id="final-p2-score">0</span>
+                </div>
+            </div>
+            <div class="match-stats">
+                <div class="match-stat"><span>Rally Length</span><span id="stat-rally">0</span></div>
+                <div class="match-stat"><span>Max Combo</span><span id="stat-combo">0</span></div>
+                <div class="match-stat"><span>Power-ups Used</span><span id="stat-powerups">0</span></div>
+                <div class="match-stat"><span>Max Ball Speed</span><span id="stat-speed">0</span></div>
+            </div>
+            <div class="gameover-buttons">
+                <button class="menu-btn primary" data-action="rematch">REMATCH</button>
+                <button class="menu-btn" data-action="quit">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
     <script src="./script.js"></script>
 </body>
 </html>
