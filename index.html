@@ -31,6 +31,21 @@
                     <span class="btn-text">ARCADE MODE</span>
                     <span class="btn-sub">Endless Survival</span>
                 </button>
+                <button class="menu-btn" data-action="tournament">
+                    <span class="btn-icon">TR</span>
+                    <span class="btn-text">TOURNAMENT</span>
+                    <span class="btn-sub">Best of Sets</span>
+                </button>
+                <button class="menu-btn" data-action="practice">
+                    <span class="btn-icon">PR</span>
+                    <span class="btn-text">PRACTICE</span>
+                    <span class="btn-sub">Training Mode</span>
+                </button>
+                <button class="menu-btn" data-action="achievements">
+                    <span class="btn-icon">&#9733;</span>
+                    <span class="btn-text">ACHIEVEMENTS</span>
+                    <span class="btn-sub" id="achievement-count">0 / 0</span>
+                </button>
                 <button class="menu-btn" data-action="settings">
                     <span class="btn-icon">&#9881;</span>
                     <span class="btn-text">SETTINGS</span>
@@ -41,6 +56,7 @@
                 <div class="stat"><span class="stat-label">HIGH SCORE</span><span class="stat-value" id="menu-high-score">0</span></div>
                 <div class="stat"><span class="stat-label">GAMES PLAYED</span><span class="stat-value" id="menu-games-played">0</span></div>
                 <div class="stat"><span class="stat-label">WIN RATE</span><span class="stat-value" id="menu-win-rate">0%</span></div>
+                <div class="stat"><span class="stat-label">STREAK</span><span class="stat-value" id="menu-streak">0</span></div>
             </div>
         </div>
     </div>
@@ -49,63 +65,106 @@
     <div id="settings-screen" class="screen">
         <div class="settings-container">
             <h2 class="screen-title">SETTINGS</h2>
-            <div class="settings-group">
-                <label class="setting-label">AI DIFFICULTY</label>
-                <div class="difficulty-selector">
-                    <button class="diff-btn" data-diff="easy">EASY</button>
-                    <button class="diff-btn active" data-diff="medium">MEDIUM</button>
-                    <button class="diff-btn" data-diff="hard">HARD</button>
-                    <button class="diff-btn" data-diff="impossible">INSANE</button>
+            <div class="settings-scroll">
+                <div class="settings-group">
+                    <label class="setting-label">AI DIFFICULTY</label>
+                    <div class="difficulty-selector">
+                        <button class="diff-btn" data-diff="easy">EASY</button>
+                        <button class="diff-btn active" data-diff="medium">MEDIUM</button>
+                        <button class="diff-btn" data-diff="hard">HARD</button>
+                        <button class="diff-btn" data-diff="impossible">INSANE</button>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">WINNING SCORE</label>
+                    <div class="score-selector">
+                        <button class="score-btn" data-score="5">5</button>
+                        <button class="score-btn active" data-score="10">10</button>
+                        <button class="score-btn" data-score="15">15</button>
+                        <button class="score-btn" data-score="21">21</button>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">TOURNAMENT SETS</label>
+                    <div class="sets-selector">
+                        <button class="sets-btn active" data-sets="3">BEST OF 3</button>
+                        <button class="sets-btn" data-sets="5">BEST OF 5</button>
+                        <button class="sets-btn" data-sets="7">BEST OF 7</button>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">POWER-UPS</label>
+                    <div class="toggle-container">
+                        <label class="toggle">
+                            <input type="checkbox" id="powerups-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Enabled</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">SOUND</label>
+                    <div class="toggle-container">
+                        <label class="toggle">
+                            <input type="checkbox" id="sound-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Enabled</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">MUSIC</label>
+                    <div class="toggle-container">
+                        <label class="toggle">
+                            <input type="checkbox" id="music-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Enabled</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">SCREEN SHAKE</label>
+                    <div class="toggle-container">
+                        <label class="toggle">
+                            <input type="checkbox" id="shake-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Enabled</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">CRT EFFECT</label>
+                    <div class="toggle-container">
+                        <label class="toggle">
+                            <input type="checkbox" id="crt-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Disabled</span>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <label class="setting-label">THEME</label>
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="neon">NEON</button>
+                        <button class="theme-btn" data-theme="retro">RETRO</button>
+                        <button class="theme-btn" data-theme="matrix">MATRIX</button>
+                        <button class="theme-btn" data-theme="sunset">SUNSET</button>
+                        <button class="theme-btn" data-theme="ice">ICE</button>
+                        <button class="theme-btn" data-theme="blood">BLOOD</button>
+                    </div>
                 </div>
             </div>
-            <div class="settings-group">
-                <label class="setting-label">WINNING SCORE</label>
-                <div class="score-selector">
-                    <button class="score-btn" data-score="5">5</button>
-                    <button class="score-btn active" data-score="10">10</button>
-                    <button class="score-btn" data-score="15">15</button>
-                    <button class="score-btn" data-score="21">21</button>
-                </div>
-            </div>
-            <div class="settings-group">
-                <label class="setting-label">POWER-UPS</label>
-                <div class="toggle-container">
-                    <label class="toggle">
-                        <input type="checkbox" id="powerups-toggle" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Enabled</span>
-                </div>
-            </div>
-            <div class="settings-group">
-                <label class="setting-label">SOUND</label>
-                <div class="toggle-container">
-                    <label class="toggle">
-                        <input type="checkbox" id="sound-toggle" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Enabled</span>
-                </div>
-            </div>
-            <div class="settings-group">
-                <label class="setting-label">SCREEN SHAKE</label>
-                <div class="toggle-container">
-                    <label class="toggle">
-                        <input type="checkbox" id="shake-toggle" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="toggle-label">Enabled</span>
-                </div>
-            </div>
-            <div class="settings-group">
-                <label class="setting-label">THEME</label>
-                <div class="theme-selector">
-                    <button class="theme-btn active" data-theme="neon">NEON</button>
-                    <button class="theme-btn" data-theme="retro">RETRO</button>
-                    <button class="theme-btn" data-theme="matrix">MATRIX</button>
-                    <button class="theme-btn" data-theme="sunset">SUNSET</button>
-                </div>
-            </div>
+            <button class="menu-btn back-btn" data-action="back-to-menu">
+                <span class="btn-text">BACK TO MENU</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Achievements Screen -->
+    <div id="achievements-screen" class="screen">
+        <div class="achievements-container">
+            <h2 class="screen-title">ACHIEVEMENTS</h2>
+            <div class="achievements-grid" id="achievements-grid"></div>
             <button class="menu-btn back-btn" data-action="back-to-menu">
                 <span class="btn-text">BACK TO MENU</span>
             </button>
@@ -115,15 +174,21 @@
     <!-- Game Screen -->
     <div id="game-screen" class="screen">
         <canvas id="gameCanvas"></canvas>
+        <div id="crt-overlay" class="hidden"></div>
         <div id="game-hud">
             <div class="hud-left">
                 <div class="player-info p1">
                     <span class="player-name" id="p1-name">PLAYER 1</span>
                     <span class="player-score" id="p1-score">0</span>
+                    <div class="smash-bar-container" id="p1-smash-container">
+                        <div class="smash-bar" id="p1-smash-bar"></div>
+                    </div>
                 </div>
             </div>
             <div class="hud-center">
+                <div id="tournament-display" class="hidden"></div>
                 <div id="combo-display" class="hidden"></div>
+                <div id="announcer-text" class="hidden"></div>
                 <div id="powerup-notice" class="hidden"></div>
                 <div id="round-display"></div>
             </div>
@@ -131,7 +196,17 @@
                 <div class="player-info p2">
                     <span class="player-name" id="p2-name">CPU</span>
                     <span class="player-score" id="p2-score">0</span>
+                    <div class="smash-bar-container" id="p2-smash-container">
+                        <div class="smash-bar" id="p2-smash-bar"></div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div id="achievement-popup" class="hidden">
+            <span class="achievement-icon">&#9733;</span>
+            <div class="achievement-info">
+                <span class="achievement-label">ACHIEVEMENT UNLOCKED</span>
+                <span class="achievement-name" id="achievement-popup-name"></span>
             </div>
         </div>
         <div id="pause-overlay" class="hidden">
@@ -166,11 +241,16 @@
                     <span class="final-score-val" id="final-p2-score">0</span>
                 </div>
             </div>
+            <div id="tournament-result" class="hidden">
+                <div class="set-scores" id="set-scores"></div>
+            </div>
             <div class="match-stats">
-                <div class="match-stat"><span>Rally Length</span><span id="stat-rally">0</span></div>
+                <div class="match-stat"><span>Longest Rally</span><span id="stat-rally">0</span></div>
                 <div class="match-stat"><span>Max Combo</span><span id="stat-combo">0</span></div>
+                <div class="match-stat"><span>Smash Hits</span><span id="stat-smashes">0</span></div>
                 <div class="match-stat"><span>Power-ups Used</span><span id="stat-powerups">0</span></div>
                 <div class="match-stat"><span>Max Ball Speed</span><span id="stat-speed">0</span></div>
+                <div class="match-stat"><span>Total Hits</span><span id="stat-hits">0</span></div>
             </div>
             <div class="gameover-buttons">
                 <button class="menu-btn primary" data-action="rematch">REMATCH</button>
@@ -179,6 +259,7 @@
         </div>
     </div>
 
+    <script src="./engine.js"></script>
     <script src="./script.js"></script>
 </body>
 </html>
